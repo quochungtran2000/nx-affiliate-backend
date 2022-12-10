@@ -14,7 +14,12 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@affiliate-backend/shared/common/swagger": ["libs/shared/common/swagger/src/index.ts"],
+      "@affiliate-backend/shared/models/dtos": ["libs/shared/models/dtos/src/index.ts"],
+      "@affiliate-backend/shared/models/entities": ["libs/shared/models/entities/src/index.ts"],
+      "@affiliate-backend/shared/utils": ["libs/shared/utils/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
