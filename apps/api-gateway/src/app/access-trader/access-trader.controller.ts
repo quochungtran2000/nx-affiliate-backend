@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CreateAccessTraderDto, UpdateAccessTraderDto } from '@shared/models/dtos'
 import { AccessTraderService } from './access-trader.service';
+
+import { CreateAccessTraderDto, UpdateAccessTraderDto } from '@shared/models/dtos'
 
 @Controller('access-trader')
 export class AccessTraderController {

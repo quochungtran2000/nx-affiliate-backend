@@ -1,8 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ClientProxy, ClientProxyFactory, Transport } from '@nestjs/microservices';
+import { firstValueFrom } from 'rxjs';
+
 import { CreateAccessTraderDto, UpdateAccessTraderDto } from '@shared/models/dtos';
 import { MESSAGE_PATTERN } from '@shared/utils';
-import { firstValueFrom } from 'rxjs';
+import { config } from '../config/configuration';
 
 @Injectable()
 export class AccessTraderService {
@@ -12,9 +14,8 @@ export class AccessTraderService {
     this.client = ClientProxyFactory.create({
       transport: Transport.REDIS,
       options: {
-        // url: process.env.REDIS_URL,
-        host: process.env.REDIS_HOST || '127.0.0.1',
-        port: +(process.env.REDIS_PORT + '') || 6379,
+        host: config.redis.host,
+        port: config.redis.port,
         retryAttempts: 3,
         retryDelay: 1000 * 30,
       },

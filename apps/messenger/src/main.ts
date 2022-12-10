@@ -8,17 +8,16 @@ import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
 
 import { AppModule } from './app/app.module';
+import { config } from './app/config/configuration';
 
 async function bootstrap() {
   const logger = new Logger(`MicroService-Messenger`);
-  const port = process.env.PORT || 3335;
-
   const app = await NestFactory.create(AppModule);
 
   app.connectMicroservice({
     transport: Transport.REDIS,
     options: {
-      url: process.env.REDIS_URL,
+      url: config.redis.url,
       retryAttempts: 5,
       retryDelay: 1000 * 10,
     },
@@ -26,6 +25,7 @@ async function bootstrap() {
 
   await app.startAllMicroservices();
 
+  const port = config.service.port;
 
   await app.listen(port);
 
