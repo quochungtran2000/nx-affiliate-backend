@@ -11,7 +11,10 @@
   "dependencies": {
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/mapped-types": "^1.2.0",
+    "@nestjs/microservices": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "ioredis": "^5.2.4",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "tslib": "^2.3.0"
