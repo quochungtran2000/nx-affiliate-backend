@@ -2,7 +2,7 @@ export const config = {
   service: {
     privateKey: process.env.PRIVATE_KEY,
     cors: process.env.CORS || '',
-    port: Number(process.env.PORT) || 3333,
+    port: Number(process.env.PORT) || 9010,
   },
   database: {
     scheme: process.env.DB_SCHEME,

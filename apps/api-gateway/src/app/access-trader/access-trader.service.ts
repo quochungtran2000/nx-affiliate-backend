@@ -9,7 +9,7 @@ import { config } from '../config/configuration';
 @Injectable()
 export class AccessTraderService {
   private readonly client: ClientProxy;
-  private readonly logger = new Logger(`${AccessTraderService.name}`);
+  private readonly logger = new Logger(`API-gateway.${AccessTraderService.name}`);
   constructor() {
     this.client = ClientProxyFactory.create({
       transport: Transport.REDIS,

@@ -1,21 +1,23 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ClientProxy, ClientProxyFactory, Transport } from '@nestjs/microservices';
-import { CreateMessengerDto, UpdateMessengerDto } from '@shared/models/dtos';
-import { MESSAGE_PATTERN } from '@shared/utils';
 import { firstValueFrom } from 'rxjs';
+
+import { GetWebhookQueryDTO } from '@shared/models/dtos';
+import { MESSAGE_PATTERN } from '@shared/utils';
 import { AccessTraderService } from '../access-trader/access-trader.service';
+import { config } from '../config/configuration';
 
 @Injectable()
 export class MessengerService {
   private readonly client: ClientProxy;
-  private readonly logger = new Logger(`${AccessTraderService.name}`);
+  private readonly logger = new Logger(`API-gateway.${AccessTraderService.name}`);
   constructor() {
     this.client = ClientProxyFactory.create({
       transport: Transport.REDIS,
       options: {
         // url: process.env.REDIS_URL,
-        host: process.env.REDIS_HOST || '127.0.0.1',
-        port: +(process.env.REDIS_PORT + '') || 6379,
+        host: config.redis.host,
+        port: config.redis.port, 
         retryAttempts: 3,
         retryDelay: 1000 * 30,
       },
@@ -26,24 +28,14 @@ export class MessengerService {
     this.logger.log(`${this.ping.name} called`);
     return await firstValueFrom(this.client.send({ cmd: MESSAGE_PATTERN.MESSENGER }, {}));
   }
-  
-  create(createMessengerDto: CreateMessengerDto) {
-    return 'This action adds a new messenger';
+
+  async getWebhook(query: GetWebhookQueryDTO) {
+    this.logger.log(`${this.getWebhook.name} called`);
+    return await firstValueFrom(this.client.send({ cmd: MESSAGE_PATTERN.GET_WEBHOOK }, query));
   }
 
-  findAll() {
-    return `This action returns all messenger`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} messenger`;
-  }
-
-  update(id: number, updateMessengerDto: UpdateMessengerDto) {
-    return `This action updates a #${id} messenger`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} messenger`;
+  async postWebHook(data: any) {
+    this.logger.log(`${this.postWebHook.name} called`);
+    return await firstValueFrom(this.client.send({ cmd: MESSAGE_PATTERN.POST_WEBHOOK }, data));
   }
 }
