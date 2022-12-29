@@ -10,10 +10,14 @@ export const config = {
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     dbName: process.env.DB_NAME,
+    port: process.env.DB_PORT
   },
   redis: {
     url: process.env.REDIS_URL,
     host: process.env.REDIS_HOST || '127.0.0.1',
     port: Number(process.env.REDIS_PORT) || 6379,
+  },
+  accessTrader: {
+    apiKey: 'HPuqZ-nPkEDpuyv3zTTHwYdyoaer5jbs'
   },
 };

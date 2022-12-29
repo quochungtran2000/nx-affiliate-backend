@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ClientProxy, ClientProxyFactory, Transport } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
-import { CreateAccessTraderDto, UpdateAccessTraderDto } from '@shared/models/dtos';
+import { AccessTraderToken } from '@shared/models/dtos';
 import { MESSAGE_PATTERN } from '@shared/utils';
 import { config } from '../config/configuration';
 
@@ -27,23 +27,23 @@ export class AccessTraderService {
     return await firstValueFrom(this.client.send({ cmd: MESSAGE_PATTERN.ACCESS_TRADER }, {}));
   }
 
-  create(createAccessTraderDto: CreateAccessTraderDto) {
-    return 'This action adds a new accessTrader';
+  async syncCoupons() {
+    this.logger.log(`${this.syncCoupons.name} called`);
+    return await firstValueFrom(this.client.send({ cmd: MESSAGE_PATTERN.SYNC_COUPONS }, {}));
   }
 
-  findAll() {
-    return `This action returns all accessTrader`;
+  async syncKeywords(data: AccessTraderToken) {
+    this.logger.log(`${this.syncKeywords.name} called`);
+    return await firstValueFrom(this.client.send({ cmd: MESSAGE_PATTERN.SYNC_KEYWORDS }, data));
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} accessTrader`;
+  async syncMerchants(data: AccessTraderToken) {
+    this.logger.log(`${this.syncMerchants.name} called`);
+    return await firstValueFrom(this.client.send({ cmd: MESSAGE_PATTERN.SYNC_MERCHANTS }, data));
   }
 
-  update(id: number, updateAccessTraderDto: UpdateAccessTraderDto) {
-    return `This action updates a #${id} accessTrader`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} accessTrader`;
+  async getMerchants() {
+    this.logger.log(`${this.getMerchants.name} called`);
+    return await lastValueFrom(this.client.send({ cmd: MESSAGE_PATTERN.GET_MERCHANTS }, {}));
   }
 }
